@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="BoutiqueKiku – Veshje dhe modë e përzgjedhur nga Vushtrria. Pagesa në dorëzim.">
+<meta name="theme-color" content="#000000">
+<title>BoutiqueKiku – Moda nga Vushtrria</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--s:#f4f4f4;--tx:#000;--mu:#707070;--ln:#e5e5e5;--ac:#000;--acx:#fff;--ok:#1d7a46;--er:#c00;--warn:#b8860b;--sh:0 2px 12px rgba(0,0,0,.06);--shl:0 8px 32px rgba(0,0,0,.12);--tr:.25s cubic-bezier(.4,0,.2,1);
+--sans:"Jost",system-ui,-apple-system,"Segoe UI",sans-serif;color-scheme:light}
+:root[data-theme="dark"]{--bg:#0e0e10;--s:#18181b;--tx:#ecebe8;--mu:#9a9ba1;--ln:#2b2b30;--ac:#d4b3c4;--acx:#1a1218;--ok:#6fc29b;--er:#e48a8a;--warn:#e0b060;--sh:0 2px 12px rgba(0,0,0,.4);--shl:0 8px 32px rgba(0,0,0,.6);color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;transition:background var(--tr),color var(--tr)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:60}
+a{color:inherit;text-decoration:none}img{max-width:100%;display:block}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+h1,h2,h3,h4{font-family:var(--sans);font-weight:600;line-height:1.1;margin:0;letter-spacing:-.01em}
+.wrap{max-width:1600px;margin:0 auto;padding:0 24px}
+/* HEADER */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--bg);border-bottom:1px solid var(--ln);transition:background var(--tr)}
+.top{background:var(--tx);color:var(--bg);text-align:center;font-size:12px;padding:8px 12px;letter-spacing:.05em;font-weight:500}
+.bar{display:grid;grid-template-columns:1fr auto 1fr;height:72px;align-items:center;gap:32px}
+.bar .l,.bar .r{display:flex;align-items:center;gap:8px}
+.bar .l{justify-content:flex-start;padding-right:20px}
+.bar .r{justify-content:flex-end;padding-left:20px}
+.brand{font:600 26px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;justify-content:center;text-align:center;transition:opacity var(--tr);padding:0 32px;white-space:nowrap}
+.brand:hover{opacity:.7}
+.brand img{height:40px;width:auto;margin:0 auto}
+nav{display:flex;gap:24px;font-size:13px;text-transform:uppercase;letter-spacing:.06em;font-weight:500;padding-left:8px}
+nav a{color:var(--tx);padding:4px 0;border-bottom:1px solid transparent;transition:border-color var(--tr);white-space:nowrap}
+nav a:hover,nav a.on{border-color:var(--tx)}
+.ib{background:none;border:0;cursor:pointer;padding:8px;position:relative;font-size:13px;text-transform:uppercase;letter-spacing:.06em;font-weight:500;transition:opacity var(--tr)}
+.ib:hover{opacity:.7}
+.cnt{position:absolute;top:-2px;right:-6px;background:var(--ac);color:var(--acx);border-radius:9px;min-width:18px;height:18px;font-size:11px;display:grid;place-items:center;font-weight:600;padding:0 4px}
+#mb{display:none}
+@media(max-width:1024px){
+  nav{gap:18px;font-size:12px}
+  .brand{font-size:22px;padding:0 20px}
+  .bar{gap:20px}
+}
+@media(max-width:900px){
+  nav{display:none;position:absolute;top:100%;left:0;right:0;background:var(--bg);flex-direction:column;padding:16px 24px 22px;border-bottom:1px solid var(--ln);gap:16px;box-shadow:var(--shl);padding-left:24px}
+  nav.open{display:flex}
+  #mb{display:block}
+  .brand{font-size:20px;padding:0 12px}
+  .bar{height:60px;gap:12px}
+  .bar .l{padding-right:0}
+  .bar .r{padding-left:0}
+}
+/* BUTTONS */
+.btn{display:inline-block;background:var(--ac);color:var(--acx);border:1px solid var(--ac);padding:14px 30px;cursor:pointer;font-size:13px;text-transform:uppercase;letter-spacing:.08em;font-weight:500;transition:all var(--tr);text-align:center}
+.btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:var(--sh)}
+.btn:active{transform:translateY(0)}
+.btn.o{background:none;color:var(--tx);border-color:var(--tx)}
+.btn.o:hover{background:var(--tx);color:var(--bg)}
+.btn.sm{padding:7px 14px;font-size:12px}
+.btn.wa{background:#25d366;border-color:#25d366;color:#fff}
+.btn.wa:hover{background:#1faa50;border-color:#1faa50}
+.btn.er{background:var(--er);border-color:var(--er);color:#fff}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important}
+/* HERO */
+.hero{position:relative;min-height:calc(100vh - 100px);display:grid;align-items:end;background-color:#000;background-image:radial-gradient(circle at 72% 28%,#2c2c2c,#000 70%);background-size:cover;background-position:center;color:#fff;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7),transparent 60%);pointer-events:none}
+.hero .wrap{position:relative;z-index:1;padding-bottom:48px;width:100%;animation:rise .9s ease both}
+.hero h1{font-size:clamp(30px,6vw,72px);max-width:16ch;line-height:1;letter-spacing:-.01em;font-weight:600;color:#fff}
+.hero p{font-size:15px;max-width:40ch;margin:14px 0 22px;opacity:.9;color:#fff}
+.hero .btns{display:flex;gap:26px;flex-wrap:wrap}
+.hero .btn{background:none;color:#fff;border:0;border-bottom:1px solid #fff;padding:0 0 3px;text-transform:uppercase;font-size:13px;letter-spacing:.08em;border-radius:0}
+.hero .btn:hover{transform:none;opacity:.7;box-shadow:none}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+/* SECTIONS */
+section{padding-top:64px}
+.sh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:24px;gap:12px;flex-wrap:wrap}
+.sh h2{font-size:20px;text-transform:uppercase;letter-spacing:.02em}
+.sh a{color:var(--tx);border-bottom:1px solid var(--tx);font-size:13px;text-transform:uppercase;letter-spacing:.05em;transition:opacity var(--tr)}
+.sh a:hover{opacity:.6}
+/* PRODUCT GRID */
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:30px 6px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr);gap:22px 8px}}
+.card-wrap{position:relative}
+.card{display:block;transition:opacity var(--tr)}
+.card:hover{opacity:.92}
+.m{position:relative;aspect-ratio:2/3;background:var(--s);overflow:hidden;display:grid;place-items:center}
+.m img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.4,0,.2,1)}
+.card:hover .m img{transform:scale(1.05)}
+.ph{font:600 56px var(--sans);color:var(--mu);opacity:.18}
+.tag{position:absolute;top:0;left:0;background:var(--tx);color:var(--bg);font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:4px 9px;z-index:2}
+.tag.sale{background:var(--er);color:#fff}
+.fav-btn{position:absolute;top:8px;right:8px;background:var(--bg);border:0;width:36px;height:36px;border-radius:50%;cursor:pointer;display:grid;place-items:center;font-size:16px;z-index:2;transition:transform var(--tr),background var(--tr);box-shadow:var(--sh)}
+.fav-btn:hover{transform:scale(1.1)}
+.fav-btn.on{background:var(--er);color:#fff}
+.m .h2{position:absolute;inset:0;opacity:0;transition:opacity .3s;object-fit:cover}
+.card:hover .m .h2{opacity:1}
+.qs{position:absolute;left:0;right:0;bottom:0;background:var(--bg);color:var(--tx);padding:10px;font-size:12px;text-align:center;transform:translateY(100%);transition:transform .25s;font-weight:500}
+.card:hover .qs{transform:none}
+@media(hover:none){.qs{display:none}.fav-btn{width:32px;height:32px}}
+.card h3{font:400 13px/1.3 var(--sans);margin:10px 0 2px;color:var(--tx)}
+.card .pr{color:var(--tx);font-size:13px;font-weight:500}
+.card .pr s{opacity:.5;margin-left:6px;font-weight:400}
+/* CATEGORIES */
+.cats{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+@media(min-width:900px){.cats{grid-template-columns:repeat(3,1fr)}}
+.cat{aspect-ratio:4/5;background:var(--s);border:0;display:grid;align-items:end;text-align:left;padding:20px;transition:all var(--tr);position:relative;overflow:hidden}
+.cat:hover{background:var(--tx);color:var(--bg)}
+.cat:hover span{color:var(--mu)}
+.cat h3{font:600 20px var(--sans);text-transform:uppercase;letter-spacing:.02em;position:relative;z-index:1}
+.cat span{color:var(--mu);font-size:13px;transition:color var(--tr);position:relative;z-index:1}
+/* BAND */
+.band{background:var(--tx);color:var(--bg);margin-top:64px;padding:56px 24px;text-align:center}
+.band h2{font-size:clamp(26px,4vw,46px);margin-bottom:10px;color:var(--bg)}
+.band p{margin:0 0 22px;opacity:.8;color:var(--bg)}
+.band .btn{background:var(--bg);color:var(--tx);border-color:var(--bg)}
+.band .btn:hover{background:var(--bg);opacity:.85}
+/* VALUES */
+.val{padding:56px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:30px}
+.val h3{font:600 15px var(--sans);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+.val p{margin:0;color:var(--mu);font-size:15px}
+/* PRODUCT PAGE */
+.pg{display:grid;grid-template-columns:1.7fr 1fr;gap:40px;padding-top:36px}
+@media(max-width:820px){.pg{grid-template-columns:1fr;gap:24px}}
+.pg>div:last-child{position:sticky;top:110px;align-self:start}
+@media(max-width:820px){.pg>div:last-child{position:static}}
+.gal{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.gal:has(.m:only-child){grid-template-columns:1fr;max-width:620px}
+@media(max-width:560px){.gal{grid-template-columns:1fr}}
+.pg h1{font-size:22px;margin:6px 0 0;font-weight:600}
+.price{font-size:20px;font-weight:500;margin:10px 0 18px}
+.price s{opacity:.5;font-weight:400;margin-left:8px;font-size:16px}
+.pg .btn{width:100%}
+.opt{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 20px}
+.chip{border:1px solid var(--ln);background:var(--s);padding:8px 16px;cursor:pointer;min-width:46px;text-align:center;transition:all var(--tr);font-size:14px}
+.chip:hover{border-color:var(--tx)}
+.chip.on{background:var(--tx);color:var(--bg);border-color:var(--tx)}
+.chip:disabled{opacity:.3;cursor:not-allowed;text-decoration:line-through}
+.lb{font-size:14px;color:var(--mu)}
+.note{color:var(--mu);font-size:14px;margin-top:18px}
+.crumb{color:var(--mu);font-size:14px;padding-top:28px}
+.crumb a:hover{color:var(--tx)}
+/* CART */
+.line{display:grid;grid-template-columns:84px 1fr auto;gap:16px;padding:18px 0;border-bottom:1px solid var(--ln);align-items:center}
+.line .m{aspect-ratio:2/3;width:84px}
+.q{display:inline-flex;align-items:center;border:1px solid var(--ln)}
+.q button{background:none;border:0;width:32px;height:32px;cursor:pointer;font-size:18px;transition:background var(--tr)}
+.q button:hover{background:var(--s)}
+.q span{min-width:32px;text-align:center;font-weight:500}
+.two{display:grid;grid-template-columns:1.3fr 1fr;gap:48px;padding-top:28px}
+@media(max-width:820px){.two{grid-template-columns:1fr;gap:28px}}
+.box{background:var(--s);border:1px solid var(--ln);padding:24px}
+.tot{display:flex;justify-content:space-between;padding:6px 0}
+.tot.b{font:600 22px var(--sans);border-top:1px solid var(--ln);margin-top:10px;padding-top:14px}
+.tot.discount{color:var(--ok)}
+/* FORMS */
+label{display:block;font-size:14px;color:var(--mu);margin:14px 0 5px;font-weight:500}
+input,select,textarea{width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--ln);border-radius:0;transition:border-color var(--tr);color:var(--tx)}
+input:focus,select:focus,textarea:focus{border-color:var(--tx);outline:none}
+textarea{min-height:84px;resize:vertical}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+@media(max-width:560px){.f2{grid-template-columns:1fr}}
+/* STATUS */
+.ok{color:var(--ok)}.er{color:var(--er)}.warn-txt{color:var(--warn)}
+.warn{background:var(--s);border-left:3px solid var(--warn);padding:12px 16px;margin-bottom:18px;font-size:14px}
+/* EMPTY */
+.empty{text-align:center;padding:80px 0;color:var(--mu)}
+.empty h1,.empty h2{color:var(--tx);margin-bottom:12px}
+/* ADMIN */
+.tabs{display:flex;gap:6px;border-bottom:1px solid var(--ln);margin:28px 0 22px;flex-wrap:wrap;overflow-x:auto}
+.tabs button{background:none;border:0;border-bottom:2px solid transparent;padding:10px 16px;cursor:pointer;color:var(--mu);font-size:14px;white-space:nowrap;transition:all var(--tr);font-weight:500}
+.tabs button:hover{color:var(--tx)}
+.tabs button.on{color:var(--tx);border-color:var(--ac)}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+td,th{text-align:left;padding:10px 8px;border-bottom:1px solid var(--ln);vertical-align:top}
+th{font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--mu)}
+.thm{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.thm img{width:64px;height:84px;object-fit:cover;border:1px solid var(--ln)}
+/* DASHBOARD */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:24px}
+.stat{background:var(--s);border:1px solid var(--ln);padding:20px;transition:transform var(--tr)}
+.stat:hover{transform:translateY(-2px);box-shadow:var(--sh)}
+.stat .v{font-size:28px;font-weight:600;line-height:1;margin-bottom:4px;font-family:var(--sans)}
+.stat .l{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--mu);font-weight:500}
+.stat.g .v{color:var(--ok)}
+.stat.e .v{color:var(--er)}
+/* SEARCH */
+.search{position:relative;flex:1;max-width:320px}
+.search input{padding-left:38px}
+.search::before{content:"🔍";position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;opacity:.6;pointer-events:none}
+/* TOAST */
+#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,120%);background:var(--tx);color:var(--bg);padding:14px 24px;border-radius:4px;font-size:14px;font-weight:500;z-index:999;transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:var(--shl);max-width:90%;text-align:center}
+#toast.show{transform:translate(-50%,0)}
+#toast.ok{background:var(--ok);color:#fff}
+#toast.er{background:var(--er);color:#fff}
+/* FILTERS */
+.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:16px 0}
+.filters select,.filters input{width:auto;padding:8px 12px;font-size:14px}
+/* PILLS */
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0;overflow-x:auto;padding-bottom:4px}
+.pills a{border:1px solid var(--ln);padding:6px 16px;font-size:14px;white-space:nowrap;transition:all var(--tr)}
+.pills a:hover{border-color:var(--tx)}
+.pills a.on{background:var(--tx);color:var(--bg);border-color:var(--tx)}
+/* FOOTER */
+footer{background:var(--s);color:var(--tx);font-size:13px;margin-top:80px;padding:48px 0 24px;border-top:1px solid var(--ln)}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px}
+footer a{color:var(--tx);text-decoration:underline;text-underline-offset:2px}
+footer a:hover{opacity:.7}
+footer .fcol{display:flex;flex-direction:column;gap:6px}
+footer .fcol b{text-transform:uppercase;letter-spacing:.05em;font-size:12px;margin-bottom:4px;opacity:.6}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* EMAIL STATUS */
+#emailStatus{display:none;margin-top:12px;padding:12px 16px;font-size:14px;border-left:3px solid var(--ok);background:var(--s)}
+#emailStatus.show{display:block}
+#emailStatus.er{border-color:var(--er)}
+</style>
+</head>
+<body>
+<div class="top">Pagesa me para në dorë gjatë dorëzimit • Dërgesa në mbarë Kosovën</div>
+<header>
+<div class="wrap bar">
+<div class="l">
+<button class="ib" id="mb" aria-label="Menuja" aria-expanded="false">☰ Menu</button>
+<nav id="nav" aria-label="Navigimi kryesor"></nav>
+</div>
+<a class="brand" href="#ballina" id="brand">BoutiqueKiku</a>
+<div class="r">
+<button class="ib" id="themeBtn" aria-label="Ndrysho temën" title="Ndrysho temën">🌙</button>
+<a class="ib" href="#favoritet" aria-label="Favoritet">♡<span class="cnt" id="fcnt" style="display:none">0</span></a>
+<a class="ib" href="#shporta" aria-label="Shporta">Shporta<span class="cnt" id="cnt">0</span></a>
+</div>
+</div>
+</header>
+<main id="app"></main>
+<div id="toast"></div>
+<footer>
+<div class="wrap">
+<div class="fcol"><b id="fb"></b><span>Vushtrri, Kosovë</span><span style="opacity:.6;font-size:12px;margin-top:8px">© <span id="yr"></span> Të gjitha të drejtat e rezervuara.</span></div>
+<div class="fcol"><b>Kontakt</b><span id="fcontact"></span></div>
+<div class="fcol"><b>Info</b><a href="#koleksioni">Koleksioni</a><a href="#te-reja">Të reja</a><a href="#admin">Administrimi</a></div>
+</div>
+</footer>
+
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+/* =====================================================
+   KONFIGURIMI I EMAILJS (Vendosur nga ti)
+   ===================================================== */
+const EMAILJS_PUBLIC_KEY  = "v8OwVRepT7JCtG0Lz"; 
+const EMAILJS_SERVICE_ID  = "service_g2rud1a";   
+const EMAILJS_TEMPLATE_ID = "template_7bwshf3";  
+
+// Inicializo EmailJS
+if (typeof emailjs !== 'undefined') {
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+}
+
+/* ============ CORE ============ */
+const $=s=>document.querySelector(s);
+const $$=s=>document.querySelectorAll(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const ld=(k,d)=>{try{const v=localStorage.getItem("bk_"+k);return v?JSON.parse(v):d}catch(e){return d}};
+const sv=(k,v)=>{try{localStorage.setItem("bk_"+k,JSON.stringify(v));return true}catch(e){toast("Ruajtja dështoi: hapësira e shfletuesit është plot.","er");return false}};
+const eur=n=>Number(n||0).toFixed(2).replace(".",",")+" €";
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+
+const sl=["Jakne","Bluza","Trenerka","Pallto","Maica"];
+
+const demo=[
+  ["Jakne Xhins","Jakne",89,0,1,1],
+  ["Bluzë Oversize","Bluza",39,0,1,0],
+  ["Trenerkë Sportive","Trenerka",59,75,0,1],
+  ["Pallto Dimri","Pallto",120,0,1,1],
+  ["Maicë Basic","Maica",19,0,0,1],
+  ["Jakne Bomber","Jakne",139,0,1,0],
+  ["Bluzë Zip","Bluza",45,0,0,1],
+  ["Maicë Graphic","Maica",25,0,1,0]
+].map((d,i)=>({id:"d"+i,demo:1,name:d[0],cat:d[1],price:d[2],old:d[3],isNew:!!d[4],best:!!d[5],sizes:["S","M","L","XL"],colors:["E zezë","Gri"],imgs:[],stock:10,desc:"Përshkrim shembull. Ky është produkt provë – ndryshoje ose fshije nga paneli i administrimit."}));
+
+let cfg=Object.assign({brand:"BoutiqueKiku",tagline:"Veshje të përzgjedhura me kujdes, nga zemra e Vushtrrisë.",wa:"",ig:"",logo:"",hero:"",cats:sl.join(", "),fee:0,pass:"",theme:"light",coupons:[]},ld("cfg",{}));
+let P=ld("products",null)||demo,O=ld("orders",[]),C=ld("cart",[]),F=ld("favs",[]),CUPS=ld("coupons",cfg.coupons||[]);
+let sel={size:"",color:"",gi:0},tab="dash",authed=false,srt="",search="",activeCoupon=null,filterCat="",minP="",maxP="";
+
+const cats=()=>cfg.cats.split(",").map(s=>s.trim()).filter(Boolean);
+const pid=id=>P.find(p=>p.id===id);
+const subtotal=()=>C.reduce((a,l)=>a+(pid(l.pid)?.price||0)*l.q,0);
+const fee=()=>Number(cfg.fee)||0;
+const discount=()=>{if(!activeCoupon)return 0;const c=CUPS.find(x=>x.code===activeCoupon.code);if(!c)return 0;const s=subtotal();return c.type==="pct"?s*c.val/100:c.val};
+const isFav=id=>F.includes(id);
+
+function toast(msg,type=""){
+ const t=$("#toast");t.textContent=msg;t.className="show "+type;
+ clearTimeout(t._t);t._t=setTimeout(()=>t.className="",3000);
+}
+
+function media(p,i=0){return p.imgs&&p.imgs[i]?`<img src="${p.imgs[i]}" alt="${esc(p.name)}" loading="lazy">`:`<span class="ph">${esc((cfg.brand||"K")[0])}</span>`}
+
+function card(p){
+ const outOfStock=p.stock===0;
+ const hasSale=p.old&&p.old>p.price;
+ return `<div class="card-wrap"><a class="card" href="#produkt-${p.id}">
+ <div class="m">${media(p)}${p.imgs&&p.imgs[1]?`<img class="h2" src="${p.imgs[1]}" alt="" loading="lazy">`:""}
+ ${p.sizes?.length?`<span class="qs">${p.sizes.map(esc).join("  ")}</span>`:""}
+ ${outOfStock?'<span class="tag sale">Shitur</span>':p.isNew?'<span class="tag">E re</span>':hasSale?'<span class="tag sale">Zbritje</span>':p.best?'<span class="tag">Më e shitur</span>':""}
+ </div>
+ <h3>${esc(p.name)}</h3>
+ <div class="pr">${eur(p.price)}${p.old?`<s>${eur(p.old)}</s>`:""}</div></a>
+ <button class="fav-btn ${isFav(p.id)?"on":""}" onclick="toggleFav('${p.id}');event.stopPropagation()" aria-label="Shto në favorite">${isFav(p.id)?"♥":"♡"}</button>
+ </div>`;
+}
+
+function chrome(){
+ $("#brand").innerHTML=cfg.logo?`<img src="${cfg.logo}" alt="${esc(cfg.brand)}">`:esc(cfg.brand);
+ $("#fb").textContent=cfg.brand;
+ $("#yr").textContent=new Date().getFullYear();
+ $("#fcontact").innerHTML=(cfg.wa?`<a href="https://wa.me/${cfg.wa.replace(/\D/g,"")}" target="_blank" rel="noopener">WhatsApp</a>`:"")+(cfg.ig?` <a href="${esc(cfg.ig)}" target="_blank" rel="noopener">Instagram</a>`:"");
+ $("#cnt").textContent=C.reduce((a,l)=>a+l.q,0);
+ const fc=F.length;$("#fcnt").textContent=fc;$("#fcnt").style.display=fc?"grid":"none";
+ $("#nav").innerHTML='<a href="#te-reja">Të reja</a><a href="#me-te-shitura">Më të shitura</a>'+cats().map((c,i)=>`<a href="#kategori-${i}">${esc(c)}</a>`).join("")+'<a href="#koleksioni">Të gjitha</a>';
+ document.title=cfg.brand+" – Moda nga Vushtrria";
+ document.documentElement.setAttribute("data-theme",cfg.theme||"light");
+ $("#themeBtn").textContent=cfg.theme==="dark"?"☀️":"🌙";
+}
+
+/* ============ HOME ============ */
+function home(){
+ const cs=cats(),nw=P.filter(p=>p.isNew).slice(0,4),bs=P.filter(p=>p.best).slice(0,4);
+ const sec=(t,h,l)=>l.length?`<section><div class="wrap"><div class="sh"><h2>${t}</h2><a href="${h}">Shiko të gjitha</a></div><div class="grid">${l.map(card).join("")}</div></div></section>`:"";
+ return `<div class="hero" style="${cfg.hero?`background-image:url(${cfg.hero})`:""}"><div class="wrap"><h1>Koleksioni i ri</h1><p>${esc(cfg.tagline)}</p><div class="btns"><a class="btn" href="#te-reja">Të reja</a><a class="btn" href="#koleksioni">Të gjitha produktet</a></div></div></div>
+ <section><div class="wrap"><div class="sh"><h2>Kategoritë</h2></div><div class="cats">${cs.map((c,i)=>`<a class="cat" href="#kategori-${i}"><h3>${esc(c)}</h3><span>${P.filter(p=>p.cat===c).length} produkte</span></a>`).join("")}</div></div></section>
+ ${sec("Të sapoardhura","#te-reja",nw)}
+ <div class="band"><h2>Porosit lehtë, paguaj në dorëzim</h2><p>Konfirmo porosinë me një mesazh në WhatsApp.</p><a class="btn" href="#koleksioni">Shiko koleksionin</a></div>
+ ${sec("Më të shitura","#me-te-shitura",bs)}
+ <div class="wrap val"><div><h3>Pagesa në dorëzim</h3><p>Paguan me para në dorë kur e merr porosinë.</p></div><div><h3>Konfirmim i shpejtë</h3><p>Porosinë e konfirmon përmes telefonit.</p></div><div><h3>Nga Vushtrria</h3><p>Porositë përgatiten dhe dërgohen nga ${esc(cfg.brand)}.</p></div></div>`;
+}
+
+/* ============ SHOP ============ */
+function shop(h){
+ const cs=cats();let l=P,t="Koleksioni",m;
+ if(h==="te-reja"){l=P.filter(p=>p.isNew);t="Të reja"}
+ else if(h==="me-te-shitura"){l=P.filter(p=>p.best);t="Më të shitura"}
+ else if(m=h.match(/^kategori-(\d+)$/)){const c=cs[+m[1]];l=P.filter(p=>p.cat===c);t=c||"Koleksioni"}
+ 
+ if(search){l=l.filter(p=>p.name.toLowerCase().includes(search.toLowerCase())||p.desc?.toLowerCase().includes(search.toLowerCase()))}
+ if(filterCat){l=l.filter(p=>p.cat===filterCat)}
+ if(minP!==""){l=l.filter(p=>p.price>=+minP)}
+ if(maxP!==""){l=l.filter(p=>p.price<=+maxP)}
+ 
+ const pl=[["koleksioni","Të gjitha"],["te-reja","Të reja"],["me-te-shitura","Më të shitura"],...cs.map((c,i)=>["kategori-"+i,c])];
+ const sorted=srt?[...l].sort((a,b)=>srt==="a"?a.price-b.price:srt==="d"?b.price-a.price:srt==="n"?b.isNew-a.isNew:0):l;
+ 
+ return `<div class="wrap"><div class="crumb"><a href="#ballina">Ballina</a> / ${esc(t)}</div>
+ <div class="sh" style="margin:14px 0 0"><h2 style="font-size:clamp(26px,4vw,40px)">${esc(t)} <span class="lb">(${l.length})</span></h2>
+ <div class="search"><input placeholder="Kërko produkte..." value="${esc(search)}" oninput="search=this.value;route(1)"></div></div>
+ <div class="filters">
+ <select class="srt" onchange="srt=this.value;route(1)"><option value="">Rendit</option><option value="a" ${srt==="a"?"selected":""}>Çmimi: ulët → lartë</option><option value="d" ${srt==="d"?"selected":""}>Çmimi: lartë → ulët</option><option value="n" ${srt==="n"?"selected":""}>Më të reja</option></select>
+ <select onchange="filterCat=this.value;route(1)"><option value="">Të gjitha kategoritë</option>${cs.map(c=>`<option ${filterCat===c?"selected":""}>${esc(c)}</option>`).join("")}</select>
+ <input type="number" placeholder="Min €" value="${minP}" oninput="minP=this.value;route(1)" style="width:90px">
+ <input type="number" placeholder="Max €" value="${maxP}" oninput="maxP=this.value;route(1)" style="width:90px">
+ ${(search||filterCat||minP||maxP||srt)?'<button class="btn sm o" onclick="search=\'\';filterCat=\'\';minP=\'\';maxP=\'\';srt=\'\';route(1)">Pastro</button>':""}
+ </div>
+ <div class="pills">${pl.map(x=>`<a href="#${x[0]}" class="${x[0]===h?"on":""}">${esc(x[1])}</a>`).join("")}</div>
+ ${sorted.length?`<div class="grid">${sorted.map(card).join("")}</div>`:'<div class="empty"><h2>Nuk u gjet asnjë produkt</h2><p>Provo të ndryshosh filtrat ose kërkimin.</p></div>'}</div>`;
+}
+
+/* ============ PRODUCT ============ */
+function product(id){
+ const p=pid(id);if(!p)return '<div class="wrap empty">Produkti nuk u gjet. <a href="#koleksioni"><u>Kthehu te koleksioni</u></a></div>';
+ const im=p.imgs&&p.imgs.length?p.imgs:[""];
+ const outOfStock=p.stock===0;
+ return `<div class="wrap"><div class="crumb"><a href="#ballina">Ballina</a> / <a href="#koleksioni">Koleksioni</a> / ${esc(p.name)}</div><div class="pg">
+ <div class="gal">${im.map(x=>`<div class="m">${x?`<img src="${x}" alt="${esc(p.name)}">`:media(p)}</div>`).join("")}</div>
+ <div><span class="lb">${esc(p.cat)}</span><h1>${esc(p.name)}</h1>
+ <div class="price">${eur(p.price)}${p.old?` <s>${eur(p.old)}</s>`:""}</div>
+ <p style="color:var(--mu);font-size:15px">${esc(p.desc)}</p>
+ ${p.stock!==undefined?`<p class="note" style="margin:0 0 12px">${outOfStock?'<span class="er">Shitur – nuk është në stok</span>':`<span class="ok">Në stok (${p.stock} copë)</span>`}</p>`:""}
+ ${p.sizes?.length?`<div class="lb">Madhësia</div><div class="opt">${p.sizes.map(s=>`<button class="chip ${sel.size===s?"on":""}" onclick="sel.size='${esc(s)}';route(1)">${esc(s)}</button>`).join("")}</div>`:""}
+ ${p.colors?.length?`<div class="lb">Ngjyra</div><div class="opt">${p.colors.map(s=>`<button class="chip ${sel.color===s?"on":""}" onclick="sel.color='${esc(s)}';route(1)">${esc(s)}</button>`).join("")}</div>`:""}
+ <button class="btn" ${outOfStock?"disabled":""} onclick="addCart('${p.id}')">${outOfStock?"Shitur":"Shto në shportë"}</button>
+ <div id="msg" class="note er"></div>
+ <p class="note">Pagesa bëhet me para në dorë gjatë dorëzimit.</p></div></div>
+ ${(()=>{const r=P.filter(x=>x.cat===p.cat&&x.id!==p.id).slice(0,4);return r.length?`<section><div class="sh"><h2>Të ngjashme</h2></div><div class="grid">${r.map(card).join("")}</div></section>`:""})()}</div>`;
+}
+
+function toggleFav(id){
+ const i=F.indexOf(id);
+ i<0?F.push(id):F.splice(i,1);
+ sv("favs",F);chrome();
+ if(location.hash==="#favoritet"||location.hash.startsWith("#produkt-"))route(1);
+ else $$(`[onclick*="toggleFav('${id}')"]`).forEach(b=>{b.className="fav-btn "+(i<0?"on":"");b.innerHTML=i<0?"♥":"♡"});
+ toast(i<0?"Shtuar në favorite ♥":"Hequr nga favoritet");
+}
+
+function addCart(id){
+ const p=pid(id);
+ if(p.stock===0)return $("#msg").textContent="Produkti është i shitur.";
+ if(p.sizes?.length&&!sel.size)return $("#msg").textContent="Zgjidh madhësinë.";
+ if(p.colors?.length&&!sel.color)return $("#msg").textContent="Zgjidh ngjyrën.";
+ const l=C.find(x=>x.pid===id&&x.size===sel.size&&x.color===sel.color);
+ if(l){if(l.q>=p.stock)return $("#msg").textContent="Nuk ka mjaftueshëm në stok.";l.q++}
+ else C.push({pid:id,size:sel.size,color:sel.color,q:1});
+ sv("cart",C);chrome();toast("Shtuar në shportë ✓","ok");location.hash="shporta";
+}
+
+function qty(i,d){C[i].q+=d;if(C[i].q<1)C.splice(i,1);sv("cart",C);route(1)}
+
+/* ============ CART ============ */
+function cart(){
+ if(!C.length)return '<div class="wrap empty"><h2>Shporta është bosh</h2><p>Shfleto koleksionin dhe shto diçka që të pëlqen.</p><a class="btn" href="#koleksioni" style="margin-top:16px">Shiko koleksionin</a></div>';
+ return `<div class="wrap"><h1 style="font-size:clamp(36px,6vw,60px);margin:32px 0 8px">Shporta</h1><div class="two"><div>
+ ${C.map((l,i)=>{const p=pid(l.pid);if(!p)return"";return `<div class="line"><div class="m">${media(p)}</div><div><b>${esc(p.name)}</b><div class="lb">${[l.size,l.color].filter(Boolean).map(esc).join(" · ")}</div><div class="q" style="margin-top:8px"><button onclick="qty(${i},-1)" aria-label="Pakëso">−</button><span>${l.q}</span><button onclick="qty(${i},1)" aria-label="Shto">+</button></div></div><div>${eur(p.price*l.q)}</div></div>`}).join("")}</div>
+ <div class="box">${sum()}<a class="btn" style="display:block;text-align:center;margin-top:16px" href="#porosia">Vazhdo te porosia</a></div></div></div>`;
+}
+
+function sum(){
+ const s=subtotal(),f=fee(),d=discount();
+ return `<div class="tot"><span>Nëntotali</span><span>${eur(s)}</span></div>
+ ${d?`<div class="tot discount"><span>Zbritja (${esc(activeCoupon.code)})</span><span>−${eur(d)}</span></div>`:""}
+ <div class="tot"><span>Dërgesa</span><span>${f?eur(f):"Do të njoftohesh"}</span></div>
+ <div class="tot b"><span>Totali</span><span>${eur(Math.max(0,s+f-d))}</span></div>`;
+}
+
+/* ============ CHECKOUT ============ */
+function checkout(){
+ if(!C.length){location.hash="shporta";return""}
+ const draft=ld("draft",{});
+ return `<div class="wrap"><h1 style="font-size:clamp(36px,6vw,60px);margin:32px 0 8px">Përfundo porosinë</h1><div class="two">
+ <form class="box" onsubmit="placeOrder(event)"><label for="n">Emri dhe mbiemri</label><input id="n" required autocomplete="name" value="${esc(draft.name||"")}">
+ <label for="t">Numri i telefonit</label><input id="t" required type="tel" inputmode="tel" autocomplete="tel" placeholder="+383 4X XXX XXX" value="${esc(draft.phone||"")}">
+ <label for="c">Qyteti</label><input id="c" required autocomplete="address-level2" value="${esc(draft.city||"")}">
+ <label for="a">Adresa e dorëzimit</label><textarea id="a" required autocomplete="street-address">${esc(draft.addr||"")}</textarea>
+ <label for="o">Shënim (opsionale)</label><input id="o" value="${esc(draft.note||"")}">
+ <label for="cp">Kupon zbritjeje</label><div style="display:flex;gap:6px"><input id="cp" placeholder="Kodi..." value="${esc(activeCoupon?.code||"")}" style="flex:1"><button type="button" class="btn sm" onclick="applyCoupon()">Apliko</button></div>
+ <div class="box" style="margin:18px 0;padding:14px;background:var(--bg)"><b>Pagesa në dorëzim</b><div class="lb">Paguan me para në dorë kur e merr porosinë.</div></div>
+ <button class="btn" style="width:100%" type="submit" id="submitOrderBtn">Konfirmo porosinë</button>
+ <div id="emailStatus"></div>
+ </form>
+ <div class="box"><h3 style="font-size:24px;margin-bottom:10px">Përmbledhja</h3>
+ ${C.map(l=>{const p=pid(l.pid);return p?`<div class="tot"><span>${l.q} × ${esc(p.name)}<div class="lb">${[l.size,l.color].filter(Boolean).map(esc).join(" · ")}</div></span><span>${eur(p.price*l.q)}</span></div>`:""}).join("")}
+ <hr style="border:0;border-top:1px solid var(--ln);margin:12px 0">${sum()}</div></div></div>`;
+}
+
+function applyCoupon(){
+ const code=$("#cp").value.trim().toUpperCase();
+ const c=CUPS.find(x=>x.code===code);
+ if(!c)return toast("Kodi nuk është i vlefshëm.","er");
+ if(c.min&&subtotal()<c.min)return toast(`Minimumi i porosisë: ${eur(c.min)}`,"er");
+ activeCoupon=c;toast("Kuponi u aplikua! ✓","ok");route(1);
+}
+
+/* ============ DËRGIM EMAIL ME EMAILJS ============ */
+async function sendOrderEmail(order) {
+    const itemsText = order.items.map(i =>
+        `• ${i.q} × ${i.name}${i.size || i.color ? ' (' + [i.size, i.color].filter(Boolean).join(', ') + ')' : ''} — ${eur(i.price * i.q)}`
+    ).join('\n');
+
+    const params = {
+        order_id:     order.id,
+        order_date:   new Date(order.date).toLocaleString('sq-AL', { dateStyle: 'full', timeStyle: 'short' }),
+        customer_name:  order.name,
+        customer_phone: order.phone,
+        customer_city:  order.city,
+        customer_addr:  order.addr,
+        customer_note:  order.note || '—',
+        items_list: itemsText,
+        subtotal:   eur(subtotal()),
+        discount:   order.discount ? eur(order.discount) + (order.coupon ? ' (' + order.coupon + ')' : '') : '—',
+        shipping:   fee() ? eur(fee()) : 'Do të njoftohet',
+        total:      eur(order.total),
+        brand:      cfg.brand
+    };
+
+    try {
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
+        return { ok: true };
+    } catch (err) {
+        console.error('EmailJS error:', err);
+        return { ok: false, error: err };
+    }
+}
+
+async function placeOrder(e){
+ e.preventDefault();
+ const btn = $("#submitOrderBtn");
+ const status = $("#emailStatus");
+
+ if (btn && btn.disabled) return;
+
+ const s=subtotal(),f=fee(),d=discount();
+ const o={
+   id:"BK-"+Date.now().toString(36).toUpperCase().slice(-6),
+   date:new Date().toISOString(),
+   name:$("#n").value.trim(),
+   phone:$("#t").value.trim(),
+   city:$("#c").value.trim(),
+   addr:$("#a").value.trim(),
+   note:$("#o").value.trim(),
+   status:"Në pritje",
+   coupon:activeCoupon?.code||"",
+   discount:d,
+   items:C.map(l=>{const p=pid(l.pid);return {name:p.name,price:p.price,q:l.q,size:l.size,color:l.color}}),
+   total:Math.max(0,s+f-d)
+ };
+
+ O.unshift(o);
+ sv("orders",O);
+ sv("last",o);
+
+ if (btn) {
+   btn.disabled = true;
+   btn.textContent = "Duke dërguar...";
+ }
+
+ const result = await sendOrderEmail(o);
+
+ if (status) {
+   status.className = "show " + (result.ok ? "" : "er");
+   status.textContent = result.ok
+       ? "✓ Porosia u dërgua me sukses. Do të kontaktohemi së shpejti."
+       : "⚠ Porosia u regjistrua, por pati një problem me dërgimin e emailit. Të lutem na kontakto direkt.";
+ }
+
+ C=[];sv("cart",C);activeCoupon=null;
+ localStorage.removeItem("bk_draft");
+ chrome();
+
+ location.hash="faleminderit";
+}
+
+function thanks(){
+ const o=ld("last",null);if(!o)return '<div class="wrap empty"><a class="btn" href="#ballina">Ballina</a></div>';
+ return `<div class="wrap empty"><h1 style="font-size:clamp(38px,6vw,64px);margin-bottom:16px">Faleminderit, ${esc(o.name.split(" ")[0])}!</h1><p style="font-size:17px">Porosia <b>${esc(o.id)}</b> u regjistrua me sukses.</p>
+ <p style="color:var(--mu);margin-top:12px">Do t'ju kontaktojmë së shpejti në numrin <b>${esc(o.phone)}</b> për të konfirmuar porosinë tuaj.</p>
+ <p style="margin-top:32px"><a href="#koleksioni" class="btn">Vazhdo blerjen</a></p></div>`;
+}
+
+/* ============ FAVORITES ============ */
+function favorites(){
+ const l=P.filter(p=>isFav(p.id));
+ return `<div class="wrap"><div class="crumb"><a href="#ballina">Ballina</a> / Favoritet</div><h1 style="font-size:clamp(30px,5vw,48px);margin:20px 0 8px">Favoritet</h1>
+ ${l.length?`<div class="grid">${l.map(card).join("")}</div>`:'<div class="empty"><h2>Nuk ke produkte të preferuara</h2><p>Kliko ♡ në produkte për t\'i shtuar.</p><a class="btn" href="#koleksioni" style="margin-top:16px">Shfleto koleksionin</a></div>'}</div>`;
+}
+
+/* ============ ADMIN ============ */
+function img(file,max,cb){const r=new FileReader();r.onload=()=>{const i=new Image();i.onload=()=>{const s=Math.min(1,max/Math.max(i.width,i.height)),c=document.createElement("canvas");c.width=i.width*s;c.height=i.height*s;c.getContext("2d").drawImage(i,0,0,c.width,c.height);cb(c.toDataURL("image/jpeg",.82))};i.src=r.result};r.readAsDataURL(file)}
+
+function admin(){
+ if(!cfg.pass)return `<div class="wrap" style="max-width:420px;padding-top:60px"><h1>Krijo fjalëkalimin</h1><p class="note">Zgjidh një fjalëkalim për panelin e administrimit (min. 4 karaktere).</p><label for="pw">Fjalëkalimi</label><input id="pw" type="password"><button class="btn" style="margin-top:16px;width:100%" onclick="setPw()">Ruaj dhe hyr</button></div>`;
+ if(!authed)return `<div class="wrap" style="max-width:420px;padding-top:60px"><h1>Administrimi</h1><p class="note">Hyr për të menaxhuar produktet, porositë dhe cilësimet.</p><label for="pw">Fjalëkalimi</label><input id="pw" type="password" onkeydown="if(event.key==='Enter')login()"><button class="btn" style="margin-top:16px;width:100%" onclick="login()">Hyr</button><div id="msg" class="er note"></div></div>`;
+ 
+ const pending=O.filter(o=>o.status==="Në pritje").length;
+ const tb=[["dash","Dashboard"],["orders",`Porositë${pending?` (${pending})`:""}`],["prods","Produktet"],["coupons","Kuponët"],["set","Cilësimet"]];
+ return `<div class="wrap"><h1 style="margin-top:32px;font-size:clamp(32px,5vw,44px)">Administrimi</h1>
+ <div class="warn">Të dhënat ruhen në këtë shfletues. Porositë e klientëve të tjerë nuk shfaqen automatikisht – përdor <b>Eksport/Import</b> për transferim mes pajisjeve.</div>
+ <div class="tabs">${tb.map(t=>`<button class="${tab===t[0]?"on":""}" onclick="tab='${t[0]}';route(1)">${t[1]}</button>`).join("")}</div>
+ ${tab==="dash"?aDash():tab==="orders"?aOrders():tab==="prods"?aProds():tab==="coupons"?aCoupons():aSet()}</div>`;
+}
+
+function setPw(){const v=$("#pw").value;if(v.length<4)return toast("Fjalëkalimi duhet të ketë të paktën 4 karaktere.","er");cfg.pass=btoa(v);sv("cfg",cfg);authed=true;toast("U ruajt! ✓","ok");route(1)}
+function login(){if(btoa($("#pw").value)===cfg.pass){authed=true;route(1)}else{$("#msg").textContent="Fjalëkalimi është i gabuar.";toast("Fjalëkalim i gabuar.","er")}}
+
+function aDash(){
+ const totalSales=O.filter(o=>o.status!=="Anuluar").reduce((a,o)=>a+o.total,0);
+ const pending=O.filter(o=>o.status==="Në pritje").length;
+ const delivered=O.filter(o=>o.status==="Dorëzuar").length;
+ const prodCount=P.length;
+ const topP={};
+ O.forEach(o=>o.items.forEach(i=>{topP[i.name]=(topP[i.name]||0)+i.q}));
+ const topList=Object.entries(topP).sort((a,b)=>b[1]-a[1]).slice(0,5);
+ return `<div class="stats">
+ <div class="stat"><div class="v">${O.length}</div><div class="l">Porosi totale</div></div>
+ <div class="stat g"><div class="v">${eur(totalSales)}</div><div class="l">Shitje totale</div></div>
+ <div class="stat ${pending?"e":""}"><div class="v">${pending}</div><div class="l">Në pritje</div></div>
+ <div class="stat"><div class="v">${delivered}</div><div class="l">Dorëzuar</div></div>
+ <div class="stat"><div class="v">${prodCount}</div><div class="l">Produkte</div></div>
+ </div>
+ <div class="f2"><div class="box"><h3 style="font-size:18px;margin-bottom:12px">Produktet më të shitura</h3>
+ ${topList.length?topList.map(([n,c])=>`<div class="tot"><span>${esc(n)}</span><b>${c} herë</b></div>`).join(""):'<p class="lb">Nuk ka të dhëna ende.</p>'}</div>
+ <div class="box"><h3 style="font-size:18px;margin-bottom:12px">Porositë e fundit</h3>
+ ${O.slice(0,5).map(o=>`<div class="tot"><span>${esc(o.id)}<div class="lb">${esc(o.name)}</div></span><span>${eur(o.total)}</span></div>`).join("")||'<p class="lb">Nuk ka porosi.</p>'}</div></div>`;
+}
+
+function aOrders(){
+ if(!O.length)return '<div class="empty"><h2>Ende nuk ka porosi</h2></div>';
+ const st=["Në pritje","Konfirmuar","Dërguar","Dorëzuar","Anuluar"];
+ return `<div class="tw"><table><tr><th>Porosia</th><th>Klienti</th><th>Produktet</th><th>Totali</th><th>Statusi</th><th></th></tr>
+ ${O.map((o,i)=>`<tr><td><b>${esc(o.id)}</b><br><span class="lb">${new Date(o.date).toLocaleDateString("sq-AL")}</span></td>
+ <td>${esc(o.name)}<br><a href="tel:${esc(o.phone)}">${esc(o.phone)}</a><br><span class="lb">${esc(o.addr)}, ${esc(o.city)}${o.note?"<br>"+esc(o.note):""}</span></td>
+ <td>${o.items.map(x=>`${x.q} × ${esc(x.name)} <span class="lb">${[x.size,x.color].filter(Boolean).map(esc).join(", ")}</span>`).join("<br>")}</td><td>${eur(o.total)}</td>
+ <td><select onchange="O[${i}].status=this.value;sv('orders',O);toast('Statusi u përditësua ✓','ok')">${st.map(s=>`<option ${s===o.status?"selected":""}>${s}</option>`).join("")}</select></td>
+ <td><a class="btn sm wa" target="_blank" rel="noopener" href="https://wa.me/${o.phone.replace(/\D/g,"")}">WA</a> <button class="btn sm o" onclick="if(confirm('Fshij porosinë?')){O.splice(${i},1);sv('orders',O);route(1);toast('U fshi ✓')}">Fshij</button></td></tr>`).join("")}</table></div>`;
+}
+
+let ed=null;
+function aProds(){
+ if(ed)return pForm();
+ return `<p style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" onclick="ed={id:uid(),name:'',cat:cats()[0]||'',price:'',old:'',desc:'',sizes:['S','M','L','XL'],colors:[],imgs:[],stock:10,isNew:true,best:false,_n:1};route(1)">+ Shto produkt</button>
+ ${P.some(p=>p.demo)?'<button class="btn sm o" onclick="if(confirm(\'Fshij produktet shembull?\')){P=P.filter(p=>!p.demo);sv(\'products\',P);route(1);toast(\'U fshinë ✓\')}">Fshij produktet shembull</button>':""}</p>
+ ${P.some(p=>p.demo)?'<div class="warn">Produktet shembull janë vetëm për provë. Zëvendësoji me produktet e tua reale.</div>':""}
+ <div class="tw"><table><tr><th></th><th>Emri</th><th>Kategoria</th><th>Çmimi</th><th>Stoku</th><th></th></tr>
+ ${P.map(p=>`<tr><td style="width:60px"><div class="m" style="width:48px">${media(p)}</div></td>
+ <td>${esc(p.name)}${p.isNew?" · <span class='lb'>E re</span>":""}${p.best?" · <span class='lb'>Më e shitur</span>":""}</td><td>${esc(p.cat)}</td><td>${eur(p.price)}</td><td>${p.stock??"-"}</td>
+ <td><button class="btn sm o" onclick="ed=JSON.parse(JSON.stringify(pid('${p.id}')));route(1)">Ndrysho</button> <button class="btn sm o" onclick="if(confirm('Fshij produktin?')){P=P.filter(x=>x.id!=='${p.id}');sv('products',P);route(1);toast('U fshi ✓')}">Fshij</button></td></tr>`).join("")}</table></div>`;
+}
+
+function pForm(){
+ const p=ed;
+ return `<div class="box"><h3 style="font-size:20px;margin-bottom:12px">${p._n?"Shto produkt":"Ndrysho produktin"}</h3>
+ <div class="f2"><div><label>Emri</label><input id="pn" value="${esc(p.name)}"></div><div><label>Kategoria</label><select id="pc">${cats().map(c=>`<option ${c===p.cat?"selected":""}>${esc(c)}</option>`).join("")}</select></div>
+ <div><label>Çmimi (€)</label><input id="pp" type="number" step="0.01" min="0" value="${p.price}"></div><div><label>Çmimi i vjetër (opsionale)</label><input id="po" type="number" step="0.01" min="0" value="${p.old||""}"></div>
+ <div><label>Stoku</label><input id="pst" type="number" min="0" value="${p.stock??10}"></div><div><label>Madhësitë (me presje)</label><input id="ps" value="${esc((p.sizes||[]).join(", "))}"></div>
+ <div><label>Ngjyrat (me presje)</label><input id="pl" value="${esc((p.colors||[]).join(", "))}"></div></div>
+ <label>Përshkrimi</label><textarea id="pd">${esc(p.desc)}</textarea>
+ <label style="display:flex;align-items:center;gap:8px;margin-top:16px"><input type="checkbox" id="pw1" style="width:auto" ${p.isNew?"checked":""}> E re</label>
+ <label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="pb" style="width:auto" ${p.best?"checked":""}> Më e shitur</label>
+ <label>Fotot (të parën e shfaq si kryesore)</label><input type="file" accept="image/*" multiple onchange="addImgs(this.files)">
+ <div class="thm">${(p.imgs||[]).map((x,i)=>`<div><img src="${x}" alt=""><br><button class="btn sm o" onclick="ed.imgs.splice(${i},1);keep();route(1)">Hiq</button></div>`).join("")}</div>
+ <p style="margin-top:20px"><button class="btn" onclick="saveP()">Ruaj produktin</button> <button class="btn o" onclick="ed=null;route(1)">Anulo</button></p></div>`;
+}
+
+function keep(){ed.name=$("#pn").value;ed.cat=$("#pc").value;ed.price=$("#pp").value;ed.old=$("#po").value;ed.stock=+$("#pst").value||0;ed.sizes=$("#ps").value.split(",").map(s=>s.trim()).filter(Boolean);ed.colors=$("#pl").value.split(",").map(s=>s.trim()).filter(Boolean);ed.desc=$("#pd").value;ed.isNew=$("#pw1").checked;ed.best=$("#pb").checked}
+
+function addImgs(fs){keep();let n=fs.length;[...fs].forEach(f=>img(f,900,d=>{ed.imgs.push(d);if(!--n)route(1)}))}
+
+function saveP(){keep();if(!ed.name||!ed.price)return toast("Shkruaj emrin dhe çmimin.","er");const p={...ed,price:+ed.price,old:+ed.old||0,demo:0};delete p._n;const i=P.findIndex(x=>x.id===p.id);i<0?P.unshift(p):P[i]=p;if(sv("products",P)){ed=null;route(1);toast("Produkti u ruajt ✓","ok")}}
+
+function aCoupons(){
+ return `<div class="box"><h3 style="font-size:18px;margin-bottom:12px">Kuponët e zbritjes</h3>
+ ${CUPS.length?`<table><tr><th>Kodi</th><th>Tipi</th><th>Vlera</th><th>Min. porosi</th><th></th></tr>
+ ${CUPS.map((c,i)=>`<tr><td><b>${esc(c.code)}</b></td><td>${c.type==="pct"?"Përqindje":"Fikse"}</td><td>${c.type==="pct"?c.val+"%":eur(c.val)}</td><td>${c.min?eur(c.min):"-"}</td><td><button class="btn sm o" onclick="CUPS.splice(${i},1);sv('coupons',CUPS);route(1);toast('U fshi ✓')">Fshij</button></td></tr>`).join("")}</table>`:'<p class="lb">Nuk ka kuponë ende.</p>'}
+ <hr style="border:0;border-top:1px solid var(--ln);margin:16px 0">
+ <div class="f2"><div><label>Kodi</label><input id="cc" placeholder="p.sh. VERORE10" style="text-transform:uppercase"></div>
+ <div><label>Tipi</label><select id="ct"><option value="pct">Përqindje (%)</option><option value="fix">Fikse (€)</option></select></div>
+ <div><label>Vlera</label><input id="cv" type="number" min="0" step="0.01"></div><div><label>Min. porosi (€, 0 = pa limit)</label><input id="cm" type="number" min="0" step="0.01" value="0"></div></div>
+ <button class="btn sm" style="margin-top:12px" onclick="addCoupon()">+ Shto kupon</button></div>`;
+}
+function addCoupon(){const code=$("#cc").value.trim().toUpperCase();if(!code)return toast("Shkruaj kodin.","er");if(CUPS.find(c=>c.code===code))return toast("Kodi ekziston.","er");CUPS.push({code,type:$("#ct").value,val:+$("#cv").value||0,min:+$("#cm").value||0});sv("coupons",CUPS);route(1);toast("Kuponi u shtua ✓","ok")}
+
+function aSet(){
+ return `<div class="box"><div class="f2">
+ <div><label>Emri i markës</label><input id="sb" value="${esc(cfg.brand)}"></div>
+ <div><label>Numri i WhatsApp (me kodin e shtetit)</label><input id="sw" value="${esc(cfg.wa)}" inputmode="tel" placeholder="383XXXXXXXX"></div>
+ <div><label>Linku i Instagramit</label><input id="si" value="${esc(cfg.ig)}" placeholder="https://instagram.com/..."></div>
+ <div><label>Kosto e dërgesës (€, 0 = pa kosto)</label><input id="sf" type="number" min="0" step="0.01" value="${cfg.fee}"></div></div>
+ <label>Teksti në ballinë</label><input id="st" value="${esc(cfg.tagline)}">
+ <label>Kategoritë (me presje)</label><input id="sc" value="${esc(cfg.cats)}">
+ <div class="f2"><div><label>Logoja</label><input type="file" accept="image/*" onchange="img(this.files[0],400,d=>{cfg.logo=d;sv('cfg',cfg);chrome();route(1);toast('Logoja u ruajt ✓','ok')})">${cfg.logo?`<img src="${cfg.logo}" style="height:50px;margin-top:8px" alt=""><br><button class="btn sm o" onclick="cfg.logo='';sv('cfg',cfg);chrome();route(1)">Hiq</button>`:""}</div>
+ <div><label>Foto e ballinës</label><input type="file" accept="image/*" onchange="img(this.files[0],1600,d=>{cfg.hero=d;sv('cfg',cfg);chrome();route(1);toast('Fotoja u ruajt ✓','ok')})">${cfg.hero?`<br><button class="btn sm o" style="margin-top:8px" onclick="cfg.hero='';sv('cfg',cfg);route(1)">Hiq foton</button>`:""}</div></div>
+ <p style="margin-top:20px"><button class="btn" onclick="saveS()">Ruaj cilësimet</button></p>
+ <hr style="border:0;border-top:1px solid var(--ln);margin:24px 0">
+ <h3 style="font-size:18px;margin-bottom:12px">Eksport / Import</h3>
+ <p style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm o" onclick="backup()">⬇ Shkarko kopjen (JSON)</button>
+ <label class="btn sm o" style="cursor:pointer;margin:0">⬆ Importo<input type="file" accept=".json" style="display:none" onchange="restore(this.files[0])"></label>
+ <button class="btn sm o" onclick="authed=false;route(1)">Dil</button></p>
+ <p class="note">Kopja përfshin produktet, porositë dhe cilësimet (pa fjalëkalimin).</p></div>`;
+}
+
+function saveS(){cfg.brand=$("#sb").value.trim()||"BoutiqueKiku";cfg.wa=$("#sw").value;cfg.ig=$("#si").value.trim();cfg.fee=+$("#sf").value||0;cfg.tagline=$("#st").value;cfg.cats=$("#sc").value;sv("cfg",cfg);chrome();toast("Cilësimet u ruajtën ✓","ok")}
+function backup(){const b=new Blob([JSON.stringify({products:P,orders:O,favs:F,coupons:CUPS,cfg:{...cfg,pass:""}},null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=`${cfg.brand.toLowerCase()}-backup-${new Date().toISOString().slice(0,10)}.json`;a.click();toast("Kopja u shkarkua ✓","ok")}
+function restore(f){if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(d.products)P=d.products;if(d.orders)O=d.orders;if(d.favs)F=d.favs;if(d.coupons)CUPS=d.coupons;if(d.cfg)cfg={...cfg,...d.cfg,pass:cfg.pass};sv("products",P);sv("orders",O);sv("favs",F);sv("coupons",CUPS);sv("cfg",cfg);chrome();route(1);toast("Importi u krye me sukses ✓","ok")}catch(e){toast("Skedari nuk është i vlefshëm.","er")}};r.readAsText(f)}
+
+/* ============ THEME ============ */
+$("#themeBtn").onclick=()=>{cfg.theme=cfg.theme==="dark"?"light":"dark";sv("cfg",cfg);document.documentElement.setAttribute("data-theme",cfg.theme);$("#themeBtn").textContent=cfg.theme==="dark"?"☀️":"🌙"};
+
+/* ============ ROUTER ============ */
+function route(keepScroll){
+ const h=location.hash.slice(1)||"ballina";let m,v;
+ if(h==="ballina")v=home();
+ else if(["koleksioni","te-reja","me-te-shitura"].includes(h)||/^kategori-\d+$/.test(h))v=shop(h);
+ else if(m=h.match(/^produkt-(.+)$/))v=product(m[1]);
+ else if(h==="shporta")v=cart();
+ else if(h==="porosia")v=checkout();
+ else if(h==="faleminderit")v=thanks();
+ else if(h==="favoritet")v=favorites();
+ else if(h==="admin")v=admin();
+ else v=home();
+ $("#app").innerHTML=v;$("#nav").classList.remove("open");$("#mb").setAttribute("aria-expanded","false");
+ $$("#nav a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+h));
+ if(keepScroll!==1)window.scrollTo(0,0);
+ if(h==="porosia")setTimeout(()=>{const n=$("#n"),t=$("#t"),c=$("#c"),a=$("#a"),o=$("#o");if(n)[n,t,c,a,o].forEach(el=>el.addEventListener("input",()=>sv("draft",{name:n.value,phone:t.value,city:c.value,addr:a.value,note:o.value})));},50);
+}
+addEventListener("hashchange",()=>{sel={size:"",color:"",gi:0};route()});
+$("#mb").onclick=()=>{const n=$("#nav");n.classList.toggle("open");$("#mb").setAttribute("aria-expanded",n.classList.contains("open"))};
+
+chrome();route();
+</script>
+</body>
+</html>
