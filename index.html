@@ -573,7 +573,8 @@ async function img(file) {
       const img = new Image();
       img.onload = async () => {
         const canvas = document.createElement('canvas');
-        const MAX_WIDTH = 900;
+        // Zvogëlojmë foton në maksimum 800px për të mos zënë hapësirë
+        const MAX_WIDTH = 800; 
         const scale = Math.min(1, MAX_WIDTH / Math.max(img.width, img.height));
         canvas.width = img.width * scale;
         canvas.height = img.height * scale;
@@ -581,9 +582,21 @@ async function img(file) {
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         
         canvas.toBlob(async (blob) => {
+          // Krijojmë emrin e fotos
           const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.jpg`;
-          const { data, error } = await sb.storage.from('products').upload(fileName, blob);
-          if (error) return reject(error);
+          
+          // Ngarkojmë në Supabase
+          const { data, error } = await sb.storage.from('products').upload(fileName, blob, {
+            contentType: 'image/jpeg',
+            upsert: false
+          });
+          
+          if (error) {
+            console.error("Supabase Storage Error:", error);
+            return reject(error);
+          }
+          
+          // Marrim linkun publik
           const { data: publicUrl } = sb.storage.from('products').getPublicUrl(fileName);
           resolve(publicUrl.publicUrl);
         }, 'image/jpeg', 0.85);
