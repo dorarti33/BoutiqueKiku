@@ -568,13 +568,27 @@ function favorites(){
 
 /* ============ ADMIN ============ */
 async function img(file) {
+  alert("1. Filloi funksioni img për: " + file.name);
+  
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.onerror = () => reject(new Error("Skedari nuk mund të lexohet"));
+    
+    reader.onerror = () => {
+      alert("GABIM: FileReader nuk mund të lexojë skedarin.");
+      reject(new Error("Skedari nuk mund të lexohet"));
+    };
+    
     reader.onload = async (e) => {
+      alert("2. Skedari u lexua. Po krijohet imazhi...");
       const image = new Image();
-      image.onerror = () => reject(new Error("Imazhi nuk mund të hapet"));
+      
+      image.onerror = () => {
+        alert("GABIM: Imazhi nuk mund të hapet (ndoshta nuk është format i saktë).");
+        reject(new Error("Imazhi nuk mund të hapet"));
+      };
+      
       image.onload = async () => {
+        alert("3. Imazhi u hap. Po e kompresojmë...");
         try {
           const canvas = document.createElement('canvas');
           const MAX_WIDTH = 800;
@@ -584,8 +598,12 @@ async function img(file) {
           canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
           
           canvas.toBlob(async (blob) => {
-            if (!blob) return reject(new Error("Konvertimi dështoi"));
+            if (!blob) {
+              alert("GABIM: canvas.toBlob dështoi.");
+              return reject(new Error("Konvertimi dështoi"));
+            }
             
+            alert("4. Kompresimi mbaroi. Po dërgohet në Supabase...");
             const fileName = `foto-${Date.now()}-${Math.random().toString(36).slice(2)}.jpg`;
             
             const { data, error } = await sb.storage
@@ -596,10 +614,12 @@ async function img(file) {
               });
             
             if (error) {
+              alert("GABIM NGA SUPABASE: " + error.message);
               console.error("GABIM GJATË NGARKIMIT:", error);
               return reject(error);
             }
             
+            alert("5. Fotoja u ngarkua me sukses në Supabase!");
             const { data: urlData } = sb.storage
               .from('products')
               .getPublicUrl(fileName);
@@ -607,6 +627,7 @@ async function img(file) {
             resolve(urlData.publicUrl);
           }, 'image/jpeg', 0.85);
         } catch (err) {
+          alert("GABIM I PAPRITUR: " + err.message);
           reject(err);
         }
       };
@@ -615,7 +636,6 @@ async function img(file) {
     reader.readAsDataURL(file);
   });
 }
-
 function admin(){
  if(!authed)return `<div class="wrap" style="max-width:400px;padding-top:40px"><h1>Administrimi</h1><p class="note">Hyr me Email dhe Fjalëkalimin e Supabase.</p><label for="a-email">Email</label><input id="a-email" type="email" placeholder="admin@boutiquekiku.com"><label for="a-pass">Fjalëkalimi</label><input id="a-pass" type="password" onkeydown="if(event.key==='Enter')login()"><button class="btn" style="margin-top:12px;width:100%" onclick="login()">Hyr</button><div id="msg" class="er note"></div></div>`;
  
