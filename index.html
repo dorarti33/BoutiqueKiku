@@ -719,7 +719,7 @@ function pForm(){
  <label style="display:flex;align-items:center;gap:8px;margin-top:12px"><input type="checkbox" id="pw1" style="width:auto" ${p.isNew?"checked":""}> E re</label>
  <label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="pb" style="width:auto" ${p.best?"checked":""}> Më e shitur</label>
  <label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="publish" style="width:auto" ${p.published?"checked":""}> Publiko (i dukshëm për klientët)</label>
- <label>Fotot (të parën e shfaq si kryesore)</label><input type="file" accept="image/*" multiple onchange="addImgs(this.files)">
+ <label>Fotot (të parën e shfaq si kryesore)</label><input type="file" id="imgInput" accept="image/*" multiple onchange="addImgs(this.files);this.value='';">
  <div class="thm">${(p.imgs||[]).map((x,i)=>`<div><img src="${x}" alt=""><br><button class="btn sm o" onclick="ed.imgs.splice(${i},1);keep();route(1)">Hiq</button></div>`).join("")}</div>
  <p style="margin-top:16px"><button class="btn" onclick="saveP()">Ruaj produktin</button> <button class="btn o" onclick="ed=null;route(1)">Anulo</button></p></div>`;
 }
