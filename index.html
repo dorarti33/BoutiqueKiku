@@ -569,44 +569,57 @@ function favorites(){
 async function img(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
+    reader.onerror = () => reject(new Error("Nuk mund të lexohet skedari"));
     reader.onload = async (e) => {
-      const img = new Image();
-      img.onload = async () => {
-        const canvas = document.createElement('canvas');
-        // Zvogëlojmë foton në maksimum 800px për të mos zënë hapësirë
-        const MAX_WIDTH = 800; 
-        const scale = Math.min(1, MAX_WIDTH / Math.max(img.width, img.height));
-        canvas.width = img.width * scale;
-        canvas.height = img.height * scale;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        
-        canvas.toBlob(async (blob) => {
-          // Krijojmë emrin e fotos
-          const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.jpg`;
+      const image = new Image();
+      image.onerror = () => reject(new Error("Nuk mund të hapet imazhi"));
+      image.onload = async () => {
+        try {
+          const canvas = document.createElement('canvas');
+          const MAX_WIDTH = 800;
+          const scale = Math.min(1, MAX_WIDTH / Math.max(image.width, image.height));
+          canvas.width = Math.round(image.width * scale);
+          canvas.height = Math.round(image.height * scale);
+          canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
           
-          // Ngarkojmë në Supabase
-          const { data, error } = await sb.storage.from('products').upload(fileName, blob, {
-            contentType: 'image/jpeg',
-            upsert: false
-          });
-          
-          if (error) {
-            console.error("Supabase Storage Error:", error);
-            return reject(error);
-          }
-          
-          // Marrim linkun publik
-          const { data: publicUrl } = sb.storage.from('products').getPublicUrl(fileName);
-          resolve(publicUrl.publicUrl);
-        }, 'image/jpeg', 0.85);
+          canvas.toBlob(async (blob) => {
+            if (!blob) {
+              return reject(new Error("Konvertimi i fotos dështoi"));
+            }
+            
+            const fileName = `foto-${Date.now()}-${Math.random().toString(36).slice(2)}.jpg`;
+            
+            try {
+              const { data, error } = await sb.storage
+                .from('products')
+                .upload(fileName, blob, {
+                  contentType: 'image/jpeg',
+                  upsert: false
+                });
+              
+              if (error) {
+                console.error("Supabase Storage Error:", error);
+                return reject(error);
+              }
+              
+              const { data: publicUrl } = sb.storage
+                .from('products')
+                .getPublicUrl(fileName);
+              
+              resolve(publicUrl.publicUrl);
+            } catch (err) {
+              reject(err);
+            }
+          }, 'image/jpeg', 0.85);
+        } catch (err) {
+          reject(err);
+        }
       };
-      img.src = e.target.result;
+      image.src = e.target.result;
     };
     reader.readAsDataURL(file);
   });
 }
-
 function admin(){
  if(!authed)return `<div class="wrap" style="max-width:400px;padding-top:40px"><h1>Administrimi</h1><p class="note">Hyr me Email dhe Fjalëkalimin e Supabase.</p><label for="a-email">Email</label><input id="a-email" type="email" placeholder="admin@boutiquekiku.com"><label for="a-pass">Fjalëkalimi</label><input id="a-pass" type="password" onkeydown="if(event.key==='Enter')login()"><button class="btn" style="margin-top:12px;width:100%" onclick="login()">Hyr</button><div id="msg" class="er note"></div></div>`;
  
@@ -711,23 +724,52 @@ function pForm(){
  <p style="margin-top:16px"><button class="btn" onclick="saveP()">Ruaj produktin</button> <button class="btn o" onclick="ed=null;route(1)">Anulo</button></p></div>`;
 }
 
-function keep(){ed.name=$("#pn").value;ed.cat=$("#pc").value;ed.price=$("#pp").value;ed.old=$("#po").value;ed.stock=+$("#pst").value||0;ed.sizes=$("#ps").value.split(",").map(s=>s.trim()).filter(Boolean);ed.colors=$("#pl").value.split(",").map(s=>s.trim()).filter(Boolean);ed.desc=$("#pd").value;ed.isNew=$("#pw1").checked;ed.best=$("#pb").checked;ed.published=$("#publish").checked}
+function keep(){
+  // Ruaj të gjitha të dhënat e formës në objektin ed
+  ed.name = $("#pn").value;
+  ed.cat = $("#pc").value;
+  ed.price = $("#pp").value;
+  ed.old = $("#po").value;
+  ed.stock = +$("#pst").value || 0;
+  ed.sizes = $("#ps").value.split(",").map(s=>s.trim()).filter(Boolean);
+  ed.colors = $("#pl").value.split(",").map(s=>s.trim()).filter(Boolean);
+  ed.desc = $("#pd").value;
+  ed.isNew = $("#pw1").checked;
+  ed.best = $("#pb").checked;
+  ed.published = $("#publish").checked;
+}
 
 async function addImgs(fs) {
+  if (!fs || !fs.length) return;
+  
+  // Ruaj të dhënat e formës PARA se të bëjmë ndonjë gjë
   keep();
+  
   const files = [...fs];
+  
+  // Trego statusin e ngarkimit
+  toast(`Duke ngarkuar ${files.length} foto...`, "");
+  
+  // Krijo një kopje të imazheve aktuale
+  const currentImgs = [...(ed.imgs || [])];
+  
   for (const f of files) {
     try {
       const url = await img(f);
-      ed.imgs.push(url);
+      currentImgs.push(url);
+      // Përditëso ed.imgs menjëherë
+      ed.imgs = currentImgs;
     } catch (err) {
-      toast("Ngarkimi i fotos dështoi!", "er");
-      console.error(err);
+      console.error("Gabim gjatë ngarkimit:", err);
+      toast("Ngarkimi i njërës prej fotove dështoi!", "er");
     }
   }
+  
+  // Vetëm pasi të gjitha fotot të jenë ngarkuar, rifresko formën
+  ed.imgs = currentImgs;
   route(1);
+  toast(`${files.length} foto u ngarkuan ✓`, "ok");
 }
-
 async function saveP(){
  keep();
  if(!ed.name||!ed.price)return toast("Shkruaj emrin dhe çmimin.","er");
