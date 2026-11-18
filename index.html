@@ -100,11 +100,15 @@ section{padding-top:48px;width:100%}
 /* CATEGORIES */
 .cats{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;width:100%}
 @media(min-width:900px){.cats{grid-template-columns:repeat(3,1fr)}}
-.cat{aspect-ratio:4/5;background:var(--s);border:0;display:grid;align-items:end;text-align:left;padding:16px;transition:all var(--tr);position:relative;overflow:hidden;width:100%}
+.cat{aspect-ratio:4/5;background:var(--s);border:0;display:grid;align-items:end;text-align:left;padding:16px;transition:all var(--tr);position:relative;overflow:hidden;width:100%;color:var(--tx)}
 .cat:hover{background:var(--tx);color:var(--bg)}
 .cat:hover span{color:var(--mu)}
-.cat h3{font:600 18px var(--sans);text-transform:uppercase;letter-spacing:.02em;position:relative;z-index:1}
+.cat h3{font:600 18px var(--sans);text-transform:uppercase;letter-spacing:.02em;position:relative;z-index:1;margin:0}
 .cat span{color:var(--mu);font-size:12px;transition:color var(--tr);position:relative;z-index:1}
+.cat img.cat-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.cat::after{content:"";position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.8), transparent 60%);z-index:0;opacity:0;transition:opacity .3s;pointer-events:none}
+.cat.has-img::after{opacity:1}
+.cat.has-img h3, .cat.has-img span{color:#fff !important}
 /* BAND */
 .band{background:var(--tx);color:var(--bg);margin-top:48px;padding:40px 20px;text-align:center;width:100%}
 .band h2{font-size:clamp(22px,4vw,36px);margin-bottom:10px;color:var(--bg)}
@@ -283,7 +287,7 @@ const demo=[
 ].map((d,i)=>({id:"d"+i,demo:1,name:d[0],cat:d[1],price:d[2],old:d[3],isNew:!!d[4],best:!!d[5],sizes:["S","M","L","XL"],colors:["E zezë","Gri"],imgs:[],stock:10,desc:"Përshkrim shembull. Ky është produkt provë.",published:true}));
 
 let cfg=Object.assign({brand:"BoutiqueKiku",tagline:"Veshje të përzgjedhura me kujdes, nga zemra e Vushtrrisë.",wa:"",ig:"",logo:"",hero:"",cats:sl.join(", "),fee:0,theme:"light",coupons:[]},ld("cfg",{}));
-let P=ld("products",null)||demo,O=ld("orders",[]),C=ld("cart",[]),F=ld("favs",[]),CUPS=ld("coupons",cfg.coupons||[]);
+let P=ld("products",null)||demo,O=ld("orders",[]),C=ld("cart",[]),F=ld("favs",[]),CUPS=ld("coupons",cfg.coupons||[]), CATS_IMGS=ld("cats_imgs", {});
 let sel={size:"",color:"",gi:0},tab="dash",authed=false,srt="",search="",activeCoupon=null,filterCat="",minP="",maxP="";
 
 const cats=()=>cfg.cats.split(",").map(s=>s.trim()).filter(Boolean);
@@ -335,7 +339,14 @@ function home(){
  const cs=cats(),nw=P.filter(p=>p.isNew).slice(0,4),bs=P.filter(p=>p.best).slice(0,4);
  const sec=(t,h,l)=>l.length?`<section><div class="wrap"><div class="sh"><h2>${t}</h2><a href="${h}">Shiko të gjitha</a></div><div class="grid">${l.map(card).join("")}</div></div></section>`:"";
  return `<div class="hero" style="background-image:url('${cfg.hero || 'https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1920&auto=format&fit=crop'}');background-size:cover;background-position:center;"><div class="wrap"><h1>Koleksioni i ri</h1><p>${esc(cfg.tagline)}</p><div class="btns"><a class="btn" href="#te-reja">Të reja</a><a class="btn" href="#koleksioni">Të gjitha produktet</a></div></div></div>
- <section><div class="wrap"><div class="sh"><h2>Kategoritë</h2></div><div class="cats">${cs.map((c,i)=>`<a class="cat" href="#kategori-${i}"><h3>${esc(c)}</h3><span>${P.filter(p=>p.cat===c).length} produkte</span></a>`).join("")}</div></div></section>
+ <section><div class="wrap"><div class="sh"><h2>Kategoritë</h2></div><div class="cats">${cs.map((c,i)=>{
+   const img = CATS_IMGS[c] || "";
+   return `<a class="cat ${img ? 'has-img' : ''}" href="#kategori-${i}">
+     ${img ? `<img src="${img}" class="cat-bg" alt="${esc(c)}">` : ''}
+     <h3>${esc(c)}</h3>
+     <span>${P.filter(p=>p.cat===c).length} produkte</span>
+   </a>`;
+ }).join("")}</div></div></section>
  ${sec("Të sapoardhura","#te-reja",nw)}
  <div class="band"><h2>Porosit lehtë, paguaj në dorëzim</h2><p>Konfirmo porosinë me një mesazh në WhatsApp.</p><a class="btn" href="#koleksioni">Shiko koleksionin</a></div>
  ${sec("Më të shitura","#me-te-shitura",bs)}
@@ -615,6 +626,7 @@ async function img(file) {
     reader.readAsDataURL(file);
   });
 }
+
 function admin(){
  if(!authed)return `<div class="wrap" style="max-width:400px;padding-top:40px"><h1>Administrimi</h1><p class="note">Hyr me Email dhe Fjalëkalimin e Supabase.</p><label for="a-email">Email</label><input id="a-email" type="email" placeholder="admin@boutiquekiku.com"><label for="a-pass">Fjalëkalimi</label><input id="a-pass" type="password" onkeydown="if(event.key==='Enter')login()"><button class="btn" style="margin-top:12px;width:100%" onclick="login()">Hyr</button><div id="msg" class="er note"></div></div>`;
  
@@ -820,12 +832,52 @@ function aSet(){
  <div><label>Kosto e dërgesës (€, 0 = pa kosto)</label><input id="sf" type="number" min="0" step="0.01" value="${cfg.fee}"></div></div>
  <label>Teksti në ballinë</label><input id="st" value="${esc(cfg.tagline)}">
  <label>Kategoritë (me presje)</label><input id="sc" value="${esc(cfg.cats)}">
- <div class="f2"><div><label>Logoja</label><input type="file" accept="image/*" onchange="img(this.files[0]).then(d=>{cfg.logo=d;sv('cfg',cfg);chrome();route(1);toast('Logoja u ruajt ✓','ok')}).catch(()=>toast('Ngarkimi dështoi','er'))">${cfg.logo?`<img src="${cfg.logo}" style="height:40px;margin-top:6px" alt=""><br><button class="btn sm o" onclick="cfg.logo='';sv('cfg',cfg);chrome();route(1)">Hiq</button>`:""}</div>
- <div><label>Foto e ballinës</label><input type="file" accept="image/*" onchange="img(this.files[0]).then(d=>{cfg.hero=d;sv('cfg',cfg);chrome();route(1);toast('Fotoja u ruajt ✓','ok')}).catch(()=>toast('Ngarkimi dështoi','er'))">${cfg.hero?`<br><button class="btn sm o" style="margin-top:6px" onclick="cfg.hero='';sv('cfg',cfg);route(1)">Hiq foton</button>`:""}</div></div>
+ <div class="f2">
+  <div><label>Logoja</label><input type="file" accept="image/*" onchange="img(this.files[0]).then(d=>{cfg.logo=d;sv('cfg',cfg);chrome();route(1);toast('Logoja u ruajt ✓','ok')}).catch(()=>toast('Ngarkimi dështoi','er'))">${cfg.logo?`<img src="${cfg.logo}" style="height:40px;margin-top:6px" alt=""><br><button class="btn sm o" onclick="cfg.logo='';sv('cfg',cfg);chrome();route(1)">Hiq</button>`:""}</div>
+  <div><label>Foto e ballinës</label><input type="file" accept="image/*" onchange="img(this.files[0]).then(d=>{cfg.hero=d;sv('cfg',cfg);chrome();route(1);toast('Fotoja u ruajt ✓','ok')}).catch(()=>toast('Ngarkimi dështoi','er'))">${cfg.hero?`<br><button class="btn sm o" style="margin-top:6px" onclick="cfg.hero='';sv('cfg',cfg);route(1)">Hiq foton</button>`:""}</div>
+ </div>
  <p style="margin-top:16px"><button class="btn" onclick="saveS()">Ruaj cilësimet</button></p>
+ 
+ <hr style="border:0;border-top:1px solid var(--ln);margin:24px 0">
+ <h3 style="font-size:18px;margin-bottom:12px">Fotot e Kategorive</h3>
+ <p class="lb" style="margin-bottom:12px">Ngarko një foto për secilën kategori që të shfaqet në faqen kryesore.</p>
+ <div class="f2" style="grid-template-columns:repeat(auto-fill, minmax(150px, 1fr));">
+   ${cats().map(c => `
+     <div style="border:1px solid var(--ln);padding:10px;text-align:center;background:var(--bg)">
+       <div style="font-weight:600;margin-bottom:8px">${esc(c)}</div>
+       ${CATS_IMGS[c] ? `<img src="${CATS_IMGS[c]}" style="width:100%;height:100px;object-fit:cover;margin-bottom:8px;border-radius:4px">` : '<div style="height:100px;background:var(--s);display:grid;place-items:center;margin-bottom:8px;font-size:12px;color:var(--mu);border-radius:4px">Pa foto</div>'}
+       <input type="file" accept="image/*" onchange="uploadCatImg('${esc(c)}', this.files[0])" style="font-size:11px;width:100%">
+       ${CATS_IMGS[c] ? `<button class="btn sm o" style="margin-top:6px;width:100%" onclick="deleteCatImg('${esc(c)}')">Hiq foton</button>` : ''}
+     </div>
+   `).join("")}
+ </div>
+
  <hr style="border:0;border-top:1px solid var(--ln);margin:20px 0">
  <p><button class="btn sm o" onclick="logout()">Dil nga admini</button></p>
  </div>`;
+}
+
+async function uploadCatImg(catName, file) {
+  if (!file) return;
+  toast(`Duke ngarkuar foton për ${catName}...`, "");
+  try {
+    const url = await img(file);
+    CATS_IMGS[catName] = url;
+    sv("cats_imgs", CATS_IMGS);
+    route(1);
+    toast("Fotoja e kategorisë u ruajt ✓", "ok");
+  } catch (err) {
+    console.error(err);
+    toast("Ngarkimi dështoi!", "er");
+  }
+}
+
+function deleteCatImg(catName) {
+  if (!confirm(`A jeni i sigurt që doni të hiqni foton e kategorisë "${catName}"?`)) return;
+  delete CATS_IMGS[catName];
+  sv("cats_imgs", CATS_IMGS);
+  route(1);
+  toast("Fotoja u hoq ✓", "ok");
 }
 
 function saveS(){cfg.brand=$("#sb").value.trim()||"BoutiqueKiku";cfg.wa=$("#sw").value;cfg.ig=$("#si").value.trim();cfg.fee=+$("#sf").value||0;cfg.tagline=$("#st").value;cfg.cats=$("#sc").value;sv("cfg",cfg);chrome();toast("Cilësimet u ruajtën ✓","ok")}
