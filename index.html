@@ -273,17 +273,18 @@ const sv=(k,v)=>{try{localStorage.setItem("bk_"+k,JSON.stringify(v));return true
 const eur=n=>Number(n||0).toFixed(2).replace(".",",")+" €";
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 
-const sl=["Jakne","Bluza","Trenerka","Pallto","Maica"];
+// Këtu u ndryshuan kategoritë: Hoqëm "Maica", shtuam "Xhinse" dhe "Komplete"
+const sl=["Jakne","Bluza","Trenerka","Pallto","Xhinse","Komplete"];
 
 const demo=[
   ["Jakne Xhins","Jakne",89,0,1,1],
   ["Bluzë Oversize","Bluza",39,0,1,0],
   ["Trenerkë Sportive","Trenerka",59,75,0,1],
   ["Pallto Dimri","Pallto",120,0,1,1],
-  ["Maicë Basic","Maica",19,0,0,1],
+  ["Xhinse Straight","Xhinse",49,0,0,1],
   ["Jakne Bomber","Jakne",139,0,1,0],
   ["Bluzë Zip","Bluza",45,0,0,1],
-  ["Maicë Graphic","Maica",25,0,1,0]
+  ["Komplet Elegant","Komplete",89,0,1,0]
 ].map((d,i)=>({id:"d"+i,demo:1,name:d[0],cat:d[1],price:d[2],old:d[3],isNew:!!d[4],best:!!d[5],sizes:["S","M","L","XL"],colors:["E zezë","Gri"],imgs:[],stock:10,desc:"Përshkrim shembull. Ky është produkt provë.",published:true}));
 
 let cfg=Object.assign({brand:"BoutiqueKiku",tagline:"Veshje të përzgjedhura me kujdes, nga zemra e Vushtrrisë.",wa:"",ig:"",logo:"",hero:"",cats:sl.join(", "),fee:0,theme:"light",coupons:[]},ld("cfg",{}));
